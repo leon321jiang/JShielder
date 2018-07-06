@@ -1,5 +1,16 @@
 #!/bin/bash
 
+# Roostify Ubuntu 16.04 CIS security hardening script v0.1
+
+##########################
+#This is forked from https://github.com/Jsitech/JShielder.git on 7/5/2018
+# Please be noted since we're going to use ssh keyless login method, largely part about SSH login is going to be irrelevant.
+# Also, on a similar note, since we're going to use AWS security group to strictly control the network traffic between hosts, we're not going to use any hostbased firewall.
+#Changes
+# 1. remove SSH user creation section 
+# 2. disable host.allow config
+# 3. disable 3.6.4 outbound connection established
+
 # JShielder v2.2
 # CIS Hardening Script for Ubuntu Server 16.04 LTS
 #
@@ -9,6 +20,7 @@
 # Twitter = @JsiTech
 
 source helpers.sh
+
 
 ##############################################################################################################
 
@@ -299,33 +311,33 @@ update-grub
    # Installed by default
 
 
-#.4.2 Ensure /etc/hosts.allow is configured (Scored)
+#3.4.2 Ensure /etc/hosts.allow is configured (Scored)
 
-clear
-f_banner
+#clear
+#f_banner
 
-echo -e ""
-echo -e "Setting hosts.allow and hosts.deny"
-spinner
-sleep 2
+#echo -e ""
+#echo -e "Setting hosts.allow and hosts.deny"
+#spinner
+#sleep 2
 
-echo "ALL: 10.0.0.0/255.0.0.0" >> /etc/hosts.allow
-echo "ALL: 192.168.0.0/255.255.0.0" >> /etc/hosts.allow
-echo "ALL: 172.16.0.0/255.240.0.0" >> /etc/hosts.allow
+#echo "ALL: 10.0.0.0/255.0.0.0" >> /etc/hosts.allow
+#echo "ALL: 192.168.0.0/255.255.0.0" >> /etc/hosts.allow
+#echo "ALL: 172.16.0.0/255.240.0.0" >> /etc/hosts.allow
 
 #3.4.3 Ensure /etc/hosts.deny is configured (Scored)
 
-echo "ALL: ALL" >> /etc/hosts.deny
+#echo "ALL: ALL" >> /etc/hosts.deny
 
 #3.4.4 Ensure permissions on /etc/hosts.allow are configured (Scored)
 
-chown root:root /etc/hosts.allow
-chmod 644 /etc/hosts.allow
+#chown root:root /etc/hosts.allow
+#chmod 644 /etc/hosts.allow
 
 #3.4.5 Ensure permissions on /etc/hosts.deny are 644 (Scored)
 
-chown root:root /etc/hosts.deny
-chmod 644 /etc/hosts.deny
+#chown root:root /etc/hosts.deny
+#chmod 644 /etc/hosts.deny
 
 #3.5 Uncommon Network Protocols
 #3.5.1 Ensure DCCP is disabled (Not Scored)
@@ -358,18 +370,18 @@ echo "install tipc /bin/true" >> /etc/modprobe.d/CIS.conf
 #3.6.3 Ensure loopback traffic is configured (Scored)
 #3.6.4 Ensure outbound and established connections are configured (Not Scored)
 
-clear
-f_banner
-
-echo -e ""
-echo -e "Setting up Iptables Rules"
-spinner
-sleep 1
-
-sh templates/iptables-CIS.sh
-cp templates/iptables-CIS.sh /etc/init.d/
-chmod +x /etc/init.d/iptables-CIS.sh
-ln -s /etc/init.d/iptables-CIS.sh /etc/rc2.d/S99iptables-CIS.sh
+#clear
+#f_banner
+#
+#echo -e ""
+#echo -e "Setting up Iptables Rules"
+#spinner
+#sleep 1
+#
+#sh templates/iptables-CIS.sh
+#cp templates/iptables-CIS.sh /etc/init.d/
+#chmod +x /etc/init.d/iptables-CIS.sh
+#ln -s /etc/init.d/iptables-CIS.sh /etc/rc2.d/S99iptables-CIS.sh
 
 #3.6.5 Ensure firewall rules exist for all open ports (Scored)
 #3.7 Ensure wireless interfaces are disabled (Not Scored)
@@ -492,19 +504,19 @@ chown root:root /etc/cron.allow /etc/at.allow
 
 ##Create user for SSH Access
 
-echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
-echo -e "\e[93m[+]\e[00m We will now Create a New User for SSH Access"
-echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
-echo ""
-echo -n " Type the new username: "; read username
-adduser $username
+#echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+#echo -e "\e[93m[+]\e[00m We will now Create a New User for SSH Access"
+#echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+#echo ""
+#echo -n " Type the new username: "; read username
+#adduser $username
 
-echo -n " Securing SSH..."
-sed s/USERNAME/$username/g templates/sshd_config-CIS > /etc/ssh/sshd_config; echo "OK"
-service ssh restart
+#echo -n " Securing SSH..."
+#sed s/USERNAME/$username/g templates/sshd_config-CIS > /etc/ssh/sshd_config; echo "OK"
+#service ssh restart
 
-chown root:root /etc/ssh/sshd_config
-chmod og-rwx /etc/ssh/sshd_config
+#chown root:root /etc/ssh/sshd_config
+#chmod og-rwx /etc/ssh/sshd_config
 
 #5.3 Configure PAM
 #5.3.1 Ensure password creation requirements are configured (Scored)
