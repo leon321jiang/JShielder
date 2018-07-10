@@ -10,6 +10,7 @@
 # 1. remove SSH user creation section 
 # 2. disable host.allow config
 # 3. disable 3.6.4 outbound connection established
+# 4. remove aide installation as osquery is to be used for file integrity monitoring
 
 # JShielder v2.2
 # CIS Hardening Script for Ubuntu Server 16.04 LTS
@@ -67,7 +68,7 @@ fi
 ##############################################################################################################
 
 check_root
-say_continue
+#say_continue
 
 echo -e ""
 echo -e "Disabling unused filesystems"
@@ -138,13 +139,13 @@ df --local -P | awk {'if (NR!=1) print $6'} | xargs -I '{}' find '{}' -xdev -typ
 
 #1.3.1 Ensure AIDE is installed (Scored)
 
-clear
-f_banner
-echo -e ""
-echo -e "Installing and configuring AIDE"
-
-apt-get install aide
-aideinit
+#clear
+#f_banner
+#echo -e ""
+#echo -e "Installing and configuring AIDE"
+#
+#apt-get install aide
+#aideinit
 
 #1.3.2 Ensure filesystem integrity is regularly checked (Scored)
 
