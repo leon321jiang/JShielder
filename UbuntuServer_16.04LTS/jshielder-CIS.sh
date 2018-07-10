@@ -1,8 +1,6 @@
 #!/bin/bash
 
-# Roostify Ubuntu 16.04 CIS security hardening script v0.1
 
-##########################
 #This is forked from https://github.com/Jsitech/JShielder.git on 7/5/2018
 # Please be noted since we're going to use ssh keyless login method, largely part about SSH login is going to be irrelevant.
 # Also, on a similar note, since we're going to use AWS security group to strictly control the network traffic between hosts, we're not going to use any hostbased firewall.
