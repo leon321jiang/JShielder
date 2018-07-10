@@ -8,9 +8,10 @@
 # Also, on a similar note, since we're going to use AWS security group to strictly control the network traffic between hosts, we're not going to use any hostbased firewall.
 #Changes
 # 1. remove SSH user creation section 
-# 2. disable host.allow config
-# 3. disable 3.6.4 outbound connection established
+# 2. disable host.allow config as strict security groups rules are used on the instance
+# 3. disable 3.6.4 outbound connection established as strict security groups rules are used on the instance
 # 4. remove aide installation as osquery is to be used for file integrity monitoring
+# 5. disable grub password set 
 
 # JShielder v2.2
 # CIS Hardening Script for Ubuntu Server 16.04 LTS
@@ -166,17 +167,17 @@ chmod og-rwx /boot/grub/grub.cfg
 
 #1.4.2 Ensure bootloader password is set (Scored)
 
-echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
-echo -e "\e[93m[+]\e[00m We will now Set a Bootloader Password"
-echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
-echo ""
-
-grub-mkpasswd-pbkdf2 | tee grubpassword.tmp
-grubpassword=$(cat grubpassword.tmp | sed -e '1,2d' | cut -d ' ' -f7)
-echo " set superusers="root" " >> /etc/grub.d/40_custom
-echo " password_pbkdf2 root $grubpassword " >> /etc/grub.d/40_custom
-rm grubpassword.tmp
-update-grub
+#echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+#echo -e "\e[93m[+]\e[00m We will now Set a Bootloader Password"
+#echo -e "\e[34m---------------------------------------------------------------------------------------------------------\e[00m"
+#echo ""
+#
+#grub-mkpasswd-pbkdf2 | tee grubpassword.tmp
+#grubpassword=$(cat grubpassword.tmp | sed -e '1,2d' | cut -d ' ' -f7)
+#echo " set superusers="root" " >> /etc/grub.d/40_custom
+#echo " password_pbkdf2 root $grubpassword " >> /etc/grub.d/40_custom
+#rm grubpassword.tmp
+#update-grub
 
 #1.4.3 Ensure authentication required for single user mode (Scored)
 
