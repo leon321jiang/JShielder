@@ -1,5 +1,8 @@
 #!/bin/bash
 
+############
+# This is to install and configure osquery 
+
 export OSQUERY_KEY=1484120AC4E9F8A1A577AEEE97A80C63C9D8B80B
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys $OSQUERY_KEY
 sudo add-apt-repository 'deb [arch=amd64] https://pkg.osquery.io/deb deb main'
@@ -94,3 +97,9 @@ EOT1
 sudo osqueryctl config-check
 
 sudo systemctl start osqueryd
+
+#################
+# install AWS inspector 
+curl -O https://d1wk0tztpsntt1.cloudfront.net/linux/latest/install
+
+sudo bash install
