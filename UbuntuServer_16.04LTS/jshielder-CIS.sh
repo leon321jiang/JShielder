@@ -511,12 +511,12 @@ chown root:root /etc/cron.allow /etc/at.allow
 #echo -n " Type the new username: "; read username
 #adduser $username
 
-#echo -n " Securing SSH..."
-#sed s/USERNAME/$username/g templates/sshd_config-CIS > /etc/ssh/sshd_config; echo "OK"
-#service ssh restart
+echo -n " Securing SSH..."
+sed s/USERNAME/$username/g templates/sshd_config-CIS > /etc/ssh/sshd_config; echo "OK"
+service ssh restart
 
-#chown root:root /etc/ssh/sshd_config
-#chmod og-rwx /etc/ssh/sshd_config
+chown root:root /etc/ssh/sshd_config
+chmod og-rwx /etc/ssh/sshd_config
 
 #5.3 Configure PAM
 #5.3.1 Ensure password creation requirements are configured (Scored)
@@ -652,4 +652,5 @@ f_banner
 cat templates/texts/bye-CIS
 say_continue
 
-reboot
+# we'll do manual reboot
+#reboot
