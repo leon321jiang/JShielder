@@ -651,7 +651,7 @@ clear
 f_banner
 
 cat templates/texts/bye-CIS
-say_continue
+#say_continue
 
 # we'll do manual reboot
 #reboot
