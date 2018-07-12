@@ -514,6 +514,7 @@ chown root:root /etc/cron.allow /etc/at.allow
 echo -n " Securing SSH..."
 sed s/USERNAME/$username/g templates/sshd_config-CIS > /etc/ssh/sshd_config; echo "OK"
 service ssh restart
+service sshd restart
 
 chown root:root /etc/ssh/sshd_config
 chmod og-rwx /etc/ssh/sshd_config
