@@ -24,7 +24,7 @@ HostbasedAuthentication no
 PermitEmptyPasswords no
 ChallengeResponseAuthentication no
 PasswordAuthentication no
-X11Forwarding no
+X11Forwarding yes
 AllowTcpForwarding no
 PermitUserEnvironment no
 X11DisplayOffset 10
@@ -38,4 +38,3 @@ UseDNS no
 MaxStartups 2
 MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,umac-128@openssh.com
 Banner /etc/motd
-AllowUsers USERNAME
