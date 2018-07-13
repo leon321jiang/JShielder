@@ -9,7 +9,7 @@ sudo add-apt-repository 'deb [arch=amd64] https://pkg.osquery.io/deb deb main'
 sudo apt-get update
 sudo apt-get install osquery
 
-cat <<'EOT' | sudo tee /etc/rsyslog.conf 
+cat <<'EOT' >> /etc/rsyslog.conf 
 template(
   name="OsqueryCsvFormat"
   type="string"
@@ -22,7 +22,7 @@ sudo systemctl restart rsyslog
 
 
 #file integration monitoring
-cat <<'EOT2' | sudo tee /usr/share/osquery/packs/fim.conf
+cat <<'EOT2' >> /usr/share/osquery/packs/fim.conf
 {
   "queries": {
     "file_events": {
@@ -49,7 +49,7 @@ cat <<'EOT2' | sudo tee /usr/share/osquery/packs/fim.conf
 }
 EOT2
 
-cat <<'EOT1' | sudo tee /etc/osquery/osquery.conf
+cat <<'EOT1' >> /etc/osquery/osquery.conf
 {
   "options": {
     "config_plugin": "filesystem",
