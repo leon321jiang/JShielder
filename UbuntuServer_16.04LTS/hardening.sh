@@ -72,7 +72,7 @@ check_root
 
 echo -e ""
 echo -e "Disabling unused filesystems"
-spinner
+
 sleep 2
 
 #1.1.1.1 Ensure Mounting of cramfs is disabled (Scored)
@@ -121,7 +121,7 @@ f_banner
 echo -e ""
 echo -e "Setting Sticky bit on all world-writable directories"
 sleep 2
-spinner
+
 
 df --local -P | awk {'if (NR!=1) print $6'} | xargs -I '{}' find '{}' -xdev -type d -perm -0002 2>/dev/null | xargs chmod a+t
 
@@ -158,7 +158,7 @@ f_banner
 
 echo -e ""
 echo -e "Securing Boot Settings"
-spinner
+
 sleep 2
 
 chown root:root /boot/grub/grub.cfg
@@ -319,7 +319,7 @@ update-grub
 
 #echo -e ""
 #echo -e "Setting hosts.allow and hosts.deny"
-#spinner
+#
 #sleep 2
 
 #echo "ALL: 10.0.0.0/255.0.0.0" >> /etc/hosts.allow
@@ -348,7 +348,7 @@ f_banner
 
 echo -e ""
 echo -e "Disabling uncommon Network Protocols"
-spinner
+
 sleep 2
 
 echo "install dccp /bin/true" >> /etc/modprobe.d/CIS.conf
@@ -376,7 +376,7 @@ echo "install tipc /bin/true" >> /etc/modprobe.d/CIS.conf
 #
 #echo -e ""
 #echo -e "Setting up Iptables Rules"
-#spinner
+#
 #sleep 1
 #
 #sh templates/iptables-CIS.sh
@@ -395,7 +395,7 @@ f_banner
 echo -e ""
 echo -e "Installing and configuring Auditd"
 
-spinner
+
 sleep 1
 
 apt-get install auditd
@@ -532,7 +532,7 @@ f_banner
 
 echo -e ""
 echo -e "Configuring PAM"
-spinner
+
 sleep 2
 
 cp templates/common-passwd-CIS /etc/pam.d/common-passwd
@@ -580,7 +580,7 @@ clear
 f_banner
 echo -e ""
 echo -e "Setting System File Permissions"
-spinner
+
 sleep 2
 
 
