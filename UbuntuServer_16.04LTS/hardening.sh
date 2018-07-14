@@ -457,7 +457,8 @@ cp /etc/audit/audit.rules /etc/audit/rules.d/audit.rules
 
 #4.2.4 Ensure permissions on all logfiles are configured (Scored)
 
-chmod -R g-wx,o-rwx /var/log/*
+#ngix log error
+# chmod -R g-wx,o-rwx /var/log/*
 
 #4.3 Ensure logrotate is configured (Not Scored)
 
