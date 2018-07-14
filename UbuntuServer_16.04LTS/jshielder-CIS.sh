@@ -184,8 +184,8 @@ chmod og-rwx /boot/grub/grub.cfg
 #1.5.1 Ensure core dumps are restricted (Scored)
 
 echo "* hard core 0" >> /etc/security/limits.conf
-cp templates/sysctl-CIS.conf /etc/sysctl.conf
-sysctl -e -p
+#cp templates/sysctl-CIS.conf /etc/sysctl.conf
+#sysctl -e -p
 
 #1.5.2 Ensure XD/NX support is enabled (Not Scored)
 #1.5.3 Ensure address space layout randomization (ASLR) is enabled (Scored)
