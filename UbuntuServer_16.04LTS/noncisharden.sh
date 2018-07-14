@@ -5,6 +5,25 @@
 #3. log bash command to syslog
 #4. add osquery to syslog
 
+
+
+##############################################################################################################
+
+check_root() {
+if [ $EUID -ne 0 ]; then
+      echo "Permission Denied"
+      echo "Can only be run by root"
+      exit
+else
+      clear
+fi
+}
+
+check_root
+
+## increase inotify # for osquery file monitoring
+echo fs.inotify.max_user_watches=70912 >> /etc/sysctl.conf && sysctl -p
+
 ############
 # This is to install and configure osquery 
 
@@ -123,7 +142,7 @@ EOT3
 ############
 
 ###
-# add osquery log to splunk 90-splunk.conf, need to change the last line for log destination if change environments
+# add osquery log to remote log, need to change the last line for log destination if change environments
 
 cat <<EOT4 >> /etc/rsyslog.conf
 #############
@@ -154,6 +173,8 @@ cat <<EOT4 >> /etc/rsyslog.conf
 \$InputFileSeverity warning
 \$InputFileFacility local6
 \$InputRunFileMonitor
+
+local6.* @@logs.roostify.com:4008
 EOT4
 
 
