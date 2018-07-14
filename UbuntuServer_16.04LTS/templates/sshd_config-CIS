@@ -7,8 +7,8 @@ UsePrivilegeSeparation sandbox
 KeyRegenerationInterval 3600
 ServerKeyBits 768
 SyslogFacility AUTH
-ClientAliveInterval 1800
-ClientAliveCountMax 0
+ClientAliveInterval 120
+ClientAliveCountMax 15
 Compression no
 LogLevel INFO
 MaxAuthTries 4
