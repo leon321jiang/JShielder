@@ -179,10 +179,14 @@ cat <<'EOT1' >> /etc/osquery/osquery.conf
 }
 EOT1
 
-chmod 644 /var/log/osquery/osqueryd.results.log
 
 osqueryctl config-check
+
+touch /var/log/osquery/osqueryd.results.log
+chmod 644 /var/log/osquery/osqueryd.results.log
+
 systemctl enable osqueryd.service
+
 systemctl start osqueryd
 
 #################
