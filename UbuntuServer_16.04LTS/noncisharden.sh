@@ -48,23 +48,28 @@ cat <<EOT4 >> /etc/rsyslog.conf
 \$InputFileSeverity info
 \$InputFileFacility local6
 \$InputRunFileMonitor
+
 # info
-\$ModLoad imfile
+
 \$InputFileName /var/log/osquery/osqueryd.INFO
 \$InputFileTag osquery-info
 \$InputFileStateFile osquery-info
 \$InputFileSeverity notice
 \$InputFileFacility local6
 \$InputRunFileMonitor
+
 #warning
-\$ModLoad imfile
+
 \$InputFileName /var/log/osquery/osqueryd.WARNING
 \$InputFileTag osquery-warning
 \$InputFileStateFile osquery-warning
 \$InputFileSeverity warning
 \$InputFileFacility local6
 \$InputRunFileMonitor
-local6.* @@logs.roostify.com:4008
+\$InputFilePollInterval 10
+
+#end of osquery log config
+#################
 EOT4
 
 
