@@ -1,10 +1,9 @@
 #!/bin/bash
 #
-#1. install osquery
-#2. install aws inspector
-#3. log bash command to syslog
-#4. add osquery to syslog
-
+#1. log bash command to syslog
+#2. add osquery to syslog
+#3. install osquery
+#4. install aws inspector
 
 
 ##############################################################################################################
@@ -20,6 +19,63 @@ fi
 }
 
 check_root
+
+
+##### 
+# log bash command to syslog, this need to restart syslog services to work 
+cat <<EOT3 >> /etc/profile
+function log2syslog
+{
+   declare COMMAND
+   COMMAND=$(fc -ln -0)
+   logger -p local1.notice -t bash -i -- "${USER}:${COMMAND}"
+}
+trap log2syslog DEBUG
+EOT3
+############
+
+###
+# add osquery log to remote log, need to change the last line for log destination if change environments
+
+cat <<EOT4 >> /etc/rsyslog.conf
+#############
+#Following section is about osquery log file
+#query result 
+\$ModLoad imfile
+\$InputFileName /var/log/osquery/osqueryd.results.log
+\$InputFileTag osquery-result
+\$InputFileStateFile osquery-result
+\$InputFileSeverity info
+\$InputFileFacility local6
+\$InputRunFileMonitor
+# info
+\$ModLoad imfile
+\$InputFileName /var/log/osquery/osqueryd.INFO
+\$InputFileTag osquery-info
+\$InputFileStateFile osquery-info
+\$InputFileSeverity notice
+\$InputFileFacility local6
+\$InputRunFileMonitor
+#warning
+\$ModLoad imfile
+\$InputFileName /var/log/osquery/osqueryd.WARNING
+\$InputFileTag osquery-warning
+\$InputFileStateFile osquery-warning
+\$InputFileSeverity warning
+\$InputFileFacility local6
+\$InputRunFileMonitor
+local6.* @@logs.roostify.com:4008
+EOT4
+
+
+#NOT locally store osquery as syslog
+cat <<EOT5 >> /etc/rsyslog.d/50-default.conf
+local6.none -/var/log/osquery/syslog
+EOT5
+
+
+service syslog restart
+service rsyslog restart
 
 ## increase inotify # for osquery file monitoring
 echo fs.inotify.max_user_watches=70912 >> /etc/sysctl.conf && sysctl -p
@@ -127,62 +183,3 @@ systemctl start osqueryd
 curl -O https://d1wk0tztpsntt1.cloudfront.net/linux/latest/install
 
 bash install
-
-##### 
-# log bash command to syslog, this need to restart syslog services to work 
-cat <<EOT3 >> /etc/profile
-function log2syslog
-{
-   declare COMMAND
-   COMMAND=$(fc -ln -0)
-   logger -p local1.notice -t bash -i -- "${USER}:${COMMAND}"
-}
-trap log2syslog DEBUG
-EOT3
-############
-
-###
-# add osquery log to remote log, need to change the last line for log destination if change environments
-
-cat <<EOT4 >> /etc/rsyslog.conf
-#############
-#Following section is about osquery log file
-#query result 
-\$ModLoad imfile
-\$InputFileName /var/log/osquery/osqueryd.results.log
-\$InputFileTag osquery-result
-\$InputFileStateFile osquery-result
-\$InputFileSeverity info
-\$InputFileFacility local6
-\$InputRunFileMonitor
-
-# info
-\$ModLoad imfile
-\$InputFileName /var/log/osquery/osqueryd.INFO
-\$InputFileTag osquery-info
-\$InputFileStateFile osquery-info
-\$InputFileSeverity notice
-\$InputFileFacility local6
-\$InputRunFileMonitor
-
-#warning
-\$ModLoad imfile
-\$InputFileName /var/log/osquery/osqueryd.WARNING
-\$InputFileTag osquery-warning
-\$InputFileStateFile osquery-warning
-\$InputFileSeverity warning
-\$InputFileFacility local6
-\$InputRunFileMonitor
-
-local6.* @@logs.roostify.com:4008
-EOT4
-
-
-#NOT locally store osquery as syslog
-cat <<EOT5 >> /etc/rsyslog.d/50-default.conf
-local6.none -/var/log/osquery/syslog
-EOT5
-
-
-service syslog restart
-service rsyslog restart
