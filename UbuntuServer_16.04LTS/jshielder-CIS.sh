@@ -274,7 +274,7 @@ apt-get -y upgrade
 #2.3.3 Ensure talk client is not installed (Scored)
 #2.3.4 Ensure telnet client is not installed (Scored)
 
-apt-get remove telnet
+apt-get -y remove telnet
 
 #2.3.5 Ensure LDAP client is not installed (Scored)
 
