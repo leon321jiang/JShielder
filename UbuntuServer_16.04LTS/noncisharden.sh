@@ -66,7 +66,7 @@ cat <<EOT4 >> /etc/rsyslog.conf
 \$InputFileSeverity warning
 \$InputFileFacility local6
 \$InputRunFileMonitor
-\$InputFilePollInterval 10
+
 
 #end of osquery log config
 #################
@@ -113,7 +113,7 @@ cat <<'EOT2' >> /usr/share/osquery/packs/fim.conf
     "file_events": {
       "query": "select * from file_events;",
       "removed": false,
-      "interval": 300
+      "interval": 3600
     }
   },
   "file_paths": {
@@ -179,8 +179,10 @@ cat <<'EOT1' >> /etc/osquery/osquery.conf
 }
 EOT1
 
-osqueryctl config-check
+chmod 644 osqueryd.results.log
 
+osqueryctl config-check
+systemctl enable osqueryd.service
 systemctl start osqueryd
 
 #################
