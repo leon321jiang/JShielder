@@ -159,7 +159,7 @@ EOT4
 
 #NOT locally store osquery as syslog
 cat <<EOT5 >> /etc/rsyslog.d/50-default.conf
-osquery.none -/var/log/osquery/syslog
+local6.none -/var/log/osquery/syslog
 EOT5
 
 
