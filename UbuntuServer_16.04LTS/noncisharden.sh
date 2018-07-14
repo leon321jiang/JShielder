@@ -182,12 +182,13 @@ EOT1
 
 osqueryctl config-check
 
-touch /var/log/osquery/osqueryd.results.log
-chmod 644 /var/log/osquery/osqueryd.results.log
-
 systemctl enable osqueryd.service
 
 systemctl start osqueryd
+
+echo "Wait for querylog"
+sleep 30
+chmod 644 /var/log/osquery/osqueryd.results.log
 
 #################
 # install AWS inspector 
