@@ -847,8 +847,11 @@ systemctl enable osqueryd.service
 
 systemctl start osqueryd
 
-echo "Wait for querylog"
-sleep 30
+echo "Wait for querylog is ready to change its permission"
+while [ ! -f /var/log/osquery/osqueryd.results.log ]
+do
+  sleep 2
+done
 chmod 644 /var/log/osquery/osqueryd.results.log
 
 #################
